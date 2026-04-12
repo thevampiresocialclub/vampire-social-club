@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vampire Social Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --void: #080808;
+            --surface: #111111;
+            --card: #141414;
+            --border: #1e1e1e;
+            --blood: #8B0000;
+            --crimson: #a01020;
+            --ember: #c0252e;
+            --bone: #c8c0b8;
+            --ash: #888078;
+            --ghost: #e8e0d8;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: var(--void);
+            color: var(--bone);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* === NAV === */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 28px;
+            background: linear-gradient(180deg, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0) 100%);
+            pointer-events: none;
+        }
+
+        nav a {
+            pointer-events: all;
+            color: var(--ash);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover { color: var(--ghost); }
+
+        /* === BANNER === */
+        .banner {
+            width: 100%;
+            max-height: 420px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--void);
+        }
+
+        .banner img {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            display: block;
+            opacity: 0.85;
+        }
+
+        /* === WELCOME === */
+        .welcome {
+            text-align: center;
+            padding: 60px 30px 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .welcome h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--ghost);
+            letter-spacing: 3px;
+            margin-bottom: 50px;
+            text-transform: lowercase;
+        }
+
+        .rules {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+
+        .rules li {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.05rem;
+            color: var(--ash);
+            padding: 6px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .rules li .dagger {
+            color: var(--blood);
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .discord-link {
+            display: inline-block;
+            margin-top: 45px;
+            color: var(--ash);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2px;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .discord-link:hover {
+            color: var(--ghost);
+            border-color: var(--blood);
+        }
+
+        /* === DIVIDER === */
+        .divider {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--blood);
+            font-size: 0.7rem;
+            letter-spacing: 12px;
+            opacity: 0.4;
+        }
+
+        /* === UPCOMING FEATURED === */
+        .upcoming {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 0 30px 40px;
+        }
+
+        .upcoming-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--crimson);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .featured-event {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .featured-event img {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0.92;
+        }
+
+        .featured-info {
+            padding: 25px 28px;
+        }
+
+        .featured-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--ghost);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .featured-date {
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            color: var(--crimson);
+            margin-bottom: 6px;
+        }
+
+        .featured-venue {
+            font-size: 0.95rem;
+            color: var(--ash);
+        }
+
+        .featured-desc {
+            font-size: 0.95rem;
+            color: var(--bone);
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* === MASONRY ARCHIVE === */
+        .archive {
+            padding: 0 20px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .archive-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--ash);
+            text-align: center;
+            margin-bottom: 35px;
+            opacity: 0.6;
+        }
+
+        .masonry {
+            column-count: 3;
+            column-gap: 16px;
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .masonry-item:hover {
+            border-color: #2a1515;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.08);
+        }
+
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0.88;
+            transition: opacity 0.3s ease;
+        }
+
+        .masonry-item:hover img { opacity: 1; }
+
+        .masonry-meta {
+            padding: 14px 16px;
+        }
+
+        .masonry-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--bone);
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+
+        .masonry-date {
+            font-size: 0.82rem;
+            color: var(--ash);
+        }
+
+        .masonry-attendees {
+            font-size: 0.78rem;
+            color: var(--ash);
+            opacity: 0.6;
+            margin-top: 3px;
+        }
+
+        .cancelled-tag {
+            display: inline-block;
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ember);
+            border: 1px solid var(--blood);
+            padding: 2px 8px;
+            margin-bottom: 6px;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 900px) {
+            .masonry { column-count: 2; }
+        }
+
+        @media (max-width: 550px) {
+            .masonry { column-count: 1; column-gap: 12px; }
+            .banner { max-height: 280px; }
+            .welcome { padding: 40px 24px 16px; }
+            .welcome h1 { font-size: 1.15rem; letter-spacing: 2px; }
+            .rules li { font-size: 0.95rem; }
+            .featured-title { font-size: 1.1rem; }
+            nav { padding: 12px 20px; gap: 20px; }
+            nav a { font-size: 0.7rem; }
+        }
+    </style>
+
+</head>
+<body>
+
+    <nav>
+        <a href="about.html">About</a>
+        <a href="https://discord.gg/qnRwsnSaey" target="_blank" rel="noopener noreferrer">Discord</a>
+    </nav>
+
+    <div class="banner">
+        <img src="images/banner.jpg" alt="The Vampire Social Club" onerror="this.style.display='none'">
+    </div>
+
+    <div class="welcome">
+        <h1>we welcome you, dark and alternative friends</h1>
+        <ul class="rules">
+            <li><span class="dagger">&#x2020;</span>Zero tolerance for bigotry and harassment</li>
+            <li><span class="dagger">&#x2020;</span>This isn't a dating app. Don't bother people.</li>
+            <li><span class="dagger">&#x2020;</span>Moderator decisions are final</li>
+            <li><span class="dagger">&#x2020;</span>Be friendly and social</li>
+            <li><span class="dagger">&#x2020;</span>No gatekeeping</li>
+        </ul>
+        <a href="https://discord.gg/qnRwsnSaey" target="_blank" rel="noopener noreferrer" class="discord-link">Join the Coven on Discord</a>
+    </div>
+
+    <div class="divider">&#x2020; &#x2020; &#x2020;</div>
+
+    <div class="upcoming" id="upcomingSection" style="display:none;">
+        <div class="upcoming-label">Upcoming</div>
+        <div id="upcomingContainer"></div>
+    </div>
+
+    <div class="archive" id="archiveSection" style="display:none;">
+        <div class="archive-label">From the Crypt</div>
+        <div class="masonry" id="masonryGrid"></div>
+    </div>
+
+<script>
+const INLINE_EVENTS = {"events":[{"id":1,"title":"28 Years Later: The Bone Temple","date":"2025-01-17","time":"6:50 PM","venue":"Cinemark Century Stadium 25","address":"1701 West Katella Ave, Orange CA","description":"Come watch 28 Years Later: The Bone Temple","attendees":6,"image":"images/event-p01-Im5.jpg","status":"past","cancelled":false},{"id":2,"title":"Goth Night | Wenzday's Party @ Bar Sinister [come rage with us]","date":"2024-11-26","time":"10:00 PM","venue":"Boardner's","address":"1652 N Cherokee Ave, Los Angeles, CA","description":"COME RAGE WITH US","attendees":9,"image":"images/event-p01-Im7.jpg","status":"past","cancelled":false},{"id":3,"title":"Creep It Real Festive","date":"2025-11-23","time":"4:00 PM","venue":"Heritage Museum Santa Ana","address":"3101 West Harvard St, Santa Ana CA","description":"CREEP IT REAL FESTIVE","attendees":6,"image":"images/event-p01-Im16.jpg","status":"past","cancelled":false},{"id":4,"title":"Ipso Facto's 36th Anniversary Event - Live music and goth shopping!!","date":"2025-11-16","time":"6:30 PM","venue":"Ipso Facto","address":"517 N Harbor Blvd, Fullerton CA","description":"Ipso Facto in Fullerton: So-Cal Gothic Fashion Occult Boutique","attendees":1,"image":"images/event-p01-Im18.jpg","status":"past","cancelled":false},{"id":5,"title":"Repo! The Genetic Opera - Shadowcast Performance by ATTK","date":"2025-11-15","time":"8:00 PM","venue":"Starlight Cinemas Lakewood Center","address":"5200 Faculty Ave, Lakewood CA","description":"REPO is a rock opera musical movie","attendees":5,"image":"images/event-p02-Im0.jpg","status":"past","cancelled":false},{"id":6,"title":"Witches Brew Night Market [Drinks, then Night Market, then Drinks/Dinner]","date":"2025-11-08","time":"6:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Vamps only, not crossposted","attendees":3,"image":"images/event-p02-Im2.jpg","status":"past","cancelled":false},{"id":7,"title":"HALLOWEEN NIGHT OUT: Eat, Drink & Be Scary","date":"2025-10-31","time":"6:30 PM","venue":"The Frida Cinema","address":"305 E 4th St Ste 100, Santa Ana CA","description":"No Halloween plans? Skip the coffin-couch and join us","attendees":6,"image":"images/event-p02-Im6.jpg","status":"past","cancelled":false},{"id":8,"title":"Boo Ha Ha | Hearse Demolition Derby & Oktoberfest plus Live Music","date":"2025-10-25","time":"6:30 PM","venue":"OC Fairgrounds","address":"88 Fair Drive, Costa Mesa CA","description":"Meet at the entrance at 6:30 PM","attendees":4,"image":"images/event-p02-Im8.jpg","status":"past","cancelled":false},{"id":9,"title":"Emo Night Brooklyn @ Observatory OC","date":"2025-10-17","time":"7:30 PM","venue":"Observatory","address":"3503 South Harbor Boulevard, Santa Ana CA","description":"WELCOME TO EMO NIGHT BROOKLYN, A LATE NIGHT DJ BASED DANCE PARTY","attendees":7,"image":"images/event-p03-Im0.jpg","status":"past","cancelled":false},{"id":10,"title":"Movie & Supper Club | Hocus Pocus @ Frida Cinema","date":"2025-10-17","time":"6:00 PM","venue":"The Frida Cinema","address":"305 E 4th St, Santa Ana CA","description":"Supper Club - 4th Street Market @ 6:00PM","attendees":4,"image":"images/event-p03-Im2.jpg","status":"past","cancelled":true},{"id":11,"title":"Lights Out @ Pomona Fairplex | Haunted mazes and shoot zombies with airsoft!","date":"2025-10-03","time":"7:00 PM","venue":"Pomona Fairplex","address":"1101 West McKinley Ave, Pomona CA","description":"Meet at the entrance at 7:30 PM","attendees":3,"image":"images/event-p03-Im4.jpg","status":"past","cancelled":false},{"id":12,"title":"Queen Mary's Dark Harbor | Haunted mazes on the ship","date":"2025-09-26","time":"8:00 PM","venue":"Queen Mary","address":"1126 Queens Highway, Long Beach CA","description":"Meet at the entrance at 8:30 PM. DONT BE LATE!","attendees":12,"image":"images/event-p03-Im6.jpg","status":"past","cancelled":false},{"id":13,"title":"Creep It Real OC","date":"2025-09-14","time":"4:00 PM","venue":"Heritage Museum of Orange County","address":"3101 West Harvard Street, Santa Ana CA","description":"Creep It Real OC SUNDAY Sept 14th 4-10PM","attendees":10,"image":"images/event-p04-Im4.jpg","status":"past","cancelled":false},{"id":14,"title":"Peepshow Menagerie - Burlesque Show (& Brewery hangout before the show)","date":"2025-09-05","time":"6:00 PM","venue":"Radiant Beer Co","address":"1566 W Lincoln Ave, Anaheim CA","description":"Peepshow Menagerie is a themed Burlesque and Variety Show","attendees":9,"image":"images/event-p04-Im6.jpg","status":"past","cancelled":false},{"id":15,"title":"The Toxic Avenger","date":"2025-08-29","time":"7:50 PM","venue":"Century Theaters Stadium Promenade 25","address":"1701 W Katella Ave, Orange CA","description":"Come watch The Toxic Avenger with us","attendees":12,"image":"images/event-p04-Im14.jpg","status":"past","cancelled":false},{"id":16,"title":"Emo Nite @ Time Nightclub in Costa Mesa [GUYLINER OPTIONAL]","date":"2025-08-28","time":"10:00 PM","venue":"Time Nightclub","address":"1875 Newport Blvd B245, Costa Mesa CA","description":"Hey sad girls and sad boys, the OG Emo Nite is coming to Costa Mesa!","attendees":2,"image":"images/event-p04-Im16.jpg","status":"past","cancelled":false},{"id":17,"title":"Goth Night | Bar Sinister 27th Anniversary [come rage with us]","date":"2025-08-23","time":"10:00 PM","venue":"Boardner's","address":"1652 N Cherokee Ave, Los Angeles CA","description":"COME RAGE WITH US","attendees":9,"image":"images/event-p05-Im0.jpg","status":"past","cancelled":false},{"id":18,"title":"Goth Night | Summer Massive @ Das Bunker [come rage with us]","date":"2025-08-02","time":"9:00 PM","venue":"Catch One","address":"4067 W Pico Blvd, Los Angeles CA","description":"COME RAGE WITH US","attendees":16,"image":"images/event-p05-Im2.jpg","status":"past","cancelled":false},{"id":19,"title":"ArtClub Collective - Drawing, Music, and Drinks @ Chapter One in Santa Ana","date":"2025-07-17","time":"7:00 PM","venue":"Chapter One: The Modern Local","address":"227 N Broadway, Santa Ana CA","description":"ArtClub Collective: A monthly drawing event, blending illustration, socializing, and music","attendees":7,"image":"images/event-p05-Im4.jpg","status":"past","cancelled":false},{"id":20,"title":"Beach Potluck at Rosies Dog Beach | BEACH BITES & BITES BACK","date":"2025-07-13","time":"11:00 AM","venue":"Rosie's Dog Beach","address":"1 South Granada Avenue, Long Beach CA","description":"Expect good company, ocean breezes, and perhaps a touch of existential dread","attendees":12,"image":"images/event-p05-Im6.jpg","status":"past","cancelled":false},{"id":21,"title":"Twin Tribes House Of Blues Anaheim","date":"2025-06-21","time":"5:00 PM","venue":"House of Blues Anaheim","address":"1530 Disneyland Drive, Anaheim CA","description":"You're Summoned. To a night of darkwave, post-punk, and moody mayhem","attendees":2,"image":"images/event-p06-Im3.jpg","status":"past","cancelled":false},{"id":22,"title":"Art Walk - Downtown Santa Ana | Libations at 4th St Market near Frida Beforehand","date":"2025-06-07","time":"6:30 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Gather at 4th St Market next to parking for libations and chatter","attendees":9,"image":"images/event-p06-Im5.jpg","status":"past","cancelled":false},{"id":23,"title":"Goth Night @ Club Deviance in Santa Ana [come rage with us]","date":"2025-06-06","time":"9:00 PM","venue":"La Santa","address":"220 E 3rd Street, Santa Ana CA","description":"COME RAGE WITH US","attendees":5,"image":"images/event-p06-Im7.jpg","status":"past","cancelled":false},{"id":24,"title":"The Room @ Frida Cinema | Food and Drinks Beforehand","date":"2025-05-31","time":"8:30 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Oh hi, Mark. Come join in for a weird, fun time!","attendees":8,"image":"images/event-p06-Im9.jpg","status":"past","cancelled":false},{"id":25,"title":"Goth Night @ The Chamber OC in Anaheim [come rage with us]","date":"2025-05-25","time":"9:00 PM","venue":"Bravo Night Club","address":"1490 S Anaheim Blvd, Anaheim CA","description":"COME RAGE WITH US","attendees":4,"image":"images/event-p07-Im0.jpg","status":"past","cancelled":false},{"id":26,"title":"Memorial Sunday Potluck Picnic at Mile Square Park | Come to our Dark Carnival!","date":"2025-05-25","time":"2:00 PM","venue":"Miles Square Park","address":"6801 Euclid St, Fountain Valley CA","description":"Dark Carnival Picnic","attendees":6,"image":"images/event-p07-Im5.jpg","status":"past","cancelled":false},{"id":27,"title":"Ghoul's Day Out - My Chemical Romance Themed Day Market - Helena Church","date":"2025-05-17","time":"11:00 AM","venue":"Immanuel Presbyterian Church","address":"3300 Wilshire Boulevard, Los Angeles CA","description":"Make sure check the meetup instructions at the bottom","attendees":4,"image":"images/event-p07-Im7.jpg","status":"past","cancelled":false},{"id":28,"title":"Movie & Supper Club | A Girl Walks Home Alone At Night @ Frida Cinema","date":"2025-05-16","time":"8:30 PM","venue":"4th Street Market","address":"201 E 4th Street, Santa Ana CA","description":"Supper Club 830PM - Meet at 4th St Market Food Hall","attendees":3,"image":"images/event-p07-Im9.jpg","status":"past","cancelled":false},{"id":29,"title":"ArtClub Collective - Drawing, DJs, and Drinks @ Chapter One in Santa Ana","date":"2025-05-15","time":"7:00 PM","venue":"Chapter One: The Modern Local","address":"227 N Broadway, Santa Ana CA","description":"ArtClub Collective: A monthly drawing event","attendees":4,"image":"images/event-p08-Im0.jpg","status":"past","cancelled":false},{"id":30,"title":"Meet and Greet - Brewery Mini Night Market Event @ Radiant Beer Co.","date":"2025-05-02","time":"7:00 PM","venue":"Radiant Beer Co.","address":"1566 W Lincoln Ave, Anaheim CA","description":"It's that time where we randomly decide we'll host a meet and greet!","attendees":6,"image":"images/event-p08-Im2.jpg","status":"past","cancelled":false},{"id":31,"title":"Kim Dracula - Live Show!!! @ House of Blues Anaheim","date":"2025-04-05","time":"4:30 PM","venue":"House of Blues Anaheim","address":"400 Disney Way, Anaheim CA","description":"Kim Dracula & HANABIE. $53 GA Tickets","attendees":4,"image":"images/event-p08-Im4.jpg","status":"past","cancelled":false},{"id":32,"title":"The Vampire Social Club Presents: A Meet & Greet","date":"2025-04-04","time":"7:30 PM","venue":"Club 616","address":"616 East 4th St., Santa Ana CA","description":"Darklings, misfits, and creatures of the night\u2014heed the call!","attendees":9,"image":"images/event-p08-Im8.jpg","status":"past","cancelled":false},{"id":33,"title":"!!SEMINAR!! - Time Management for the Undead: Beating Eternal Procrastination","date":"2025-04-01","time":"6:16 PM","venue":"The Bottomless Pit of Mild Inconveniences","address":"666, Santa Ana CA","description":"Time Management for the Undead: Beating Eternal Procrastination","attendees":14,"image":"images/event-p09-Im0.jpg","status":"past","cancelled":false},{"id":34,"title":"Krafts Werks - Lets sew a voodoo doll! (supplies provided for $5) OR BYO Craft","date":"2025-03-22","time":"1:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"We'll grab a table, lay down some butcher paper, and get crafty","attendees":9,"image":"images/event-p09-Im2.jpg","status":"past","cancelled":false},{"id":35,"title":"Movie & Supper Club | HAUSU @ Frida Cinema | Dinner Beforehand","date":"2025-03-21","time":"8:00 PM","venue":"4th Street Market","address":"201 E 4th Street, Santa Ana CA","description":"Supper Club 8PM - Meet at 4th St Market Food Hall","attendees":7,"image":"images/event-p09-Im4.jpg","status":"past","cancelled":false},{"id":36,"title":"Art Walk - Downtown Santa Ana | Libations at 4th St Market near Frida Beforehand","date":"2025-03-01","time":"6:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Park behind Frida Cinema. Gather at 4th St Market","attendees":3,"image":"images/event-p09-Im6.jpg","status":"past","cancelled":false},{"id":37,"title":"Horror Movie Night: Companion","date":"2025-02-05","time":"6:15 PM","venue":"House of Blues Anaheim","address":"400 Disney Way #337, 400 Disney Way, Anaheim CA","description":"Join us for a screening of Companion","attendees":1,"image":"images/event-p10-Im0.jpg","status":"past","cancelled":false},{"id":38,"title":"Goth Night @ Club Deviance in Santa Ana [come rage with us]","date":"2025-01-17","time":"9:30 PM","venue":"La Santa","address":"220 E 3rd Street, Santa Ana CA","description":"COME RAGE WITH US. Hang out and/or dance, its up to you!","attendees":11,"image":"images/event-p10-Im2.jpg","status":"past","cancelled":false},{"id":39,"title":"Krafts and Drafts - Paper Dragon Masks, Red Envelopes, or BYO Craft Project!","date":"2025-01-12","time":"1:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"We'll grab a table, lay down some butcher paper, and get crafty","attendees":5,"image":"images/event-p10-Im6.jpg","status":"past","cancelled":false},{"id":40,"title":"Witches Brew Night Market Walk (Libations After Walk!)","date":"2025-01-11","time":"6:30 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"We'll meet at 4th St Market","attendees":6,"image":"images/event-p10-Im8.jpg","status":"past","cancelled":true},{"id":41,"title":"Movie & Supper Club | Nosferatu (2024) @ Frida Cinema","date":"2025-01-04","time":"2:30 PM","venue":"The Frida Cinema","address":"305 E 4th St, Santa Ana CA","description":"Supper Club - We'll decide where to eat after the movie","attendees":15,"image":"images/event-p11-Im0.jpg","status":"past","cancelled":false},{"id":42,"title":"Emo Karaoke with a Live Band - Death Cab for Karaoke @ Wayfarer CM","date":"2024-12-21","time":"7:45 PM","venue":"The Wayfarer","address":"843 W 19th St, Costa Mesa CA","description":"$15 tickets at door. Death Cab For Karaoke are the band and YOU","attendees":7,"image":"images/event-p11-Im2.jpg","status":"past","cancelled":false},{"id":43,"title":"Supper Club & Movie | feat. All Through The House @ The Frida","date":"2024-12-15","time":"5:45 PM","venue":"The Frida Cinema","address":"305 E 4th St, Santa Ana CA","description":"Join the Vampires and Horror Hounds for a night of frightful fun!","attendees":6,"image":"images/event-p11-Im4.jpg","status":"past","cancelled":false},{"id":44,"title":"Art Walk - Downtown Santa Ana (Libations Beforehand!)","date":"2024-12-07","time":"6:00 PM","venue":"Chapter One: The Modern Local","address":"227 N Broadway, Santa Ana CA","description":"Meet at Chapter One for libations and snacks","attendees":6,"image":"images/event-p11-Im6.jpg","status":"past","cancelled":false},{"id":45,"title":"Black Friday Nu Metal @The Garden Amp","date":"2024-11-29","time":"6:00 PM","venue":"Garden Amp","address":"12762 Main Street, Garden Grove CA","description":"Join us for TOXICITY: Tribute to System of a Down","attendees":1,"image":"images/event-p12-Im0.jpg","status":"past","cancelled":false},{"id":46,"title":"Creep It Real Festive @ Heritage Museum of Orange County","date":"2024-11-22","time":"6:00 PM","venue":"Heritage Museum","address":"3101 West Harvard Street, Santa Ana CA","description":"Buy your tickets now, because this always sells out!!!","attendees":15,"image":"images/event-p12-Im2.jpg","status":"past","cancelled":false},{"id":47,"title":"Supper Club & Movie | feat. The Virgin Suicides @ Frida Cinema","date":"2024-11-21","time":"7:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Supper Club - 4th Street Market @ 7:00PM","attendees":2,"image":"images/event-p12-Im4.jpg","status":"past","cancelled":false},{"id":48,"title":"Witches Brew Night Market (Libations Beforehand!)","date":"2024-11-09","time":"6:00 PM","venue":"Lola Gaspar","address":"211 W 2nd St, Santa Ana CA","description":"Come to Lola Gaspar","attendees":14,"image":"images/event-p12-Im6.jpg","status":"past","cancelled":false},{"id":49,"title":"Radiant Beer Co. | First Friday Event, with food and vendors","date":"2024-11-01","time":"7:00 PM","venue":"Radiant Beer Co.","address":"1566 W Lincoln Ave, Anaheim CA","description":"Hang out and we'll chat about spooky movies, cool music","attendees":3,"image":"images/event-p13-Im0.jpg","status":"past","cancelled":false},{"id":50,"title":"Meet & Greet @ Radiant Beer Art Gallery Event - (Warehouse of Contemporary Art)","date":"2024-10-12","time":"6:00 PM","venue":"Radiant Beer Co.","address":"1566 W Lincoln Ave, Anaheim CA","description":"We'll keep the convo casual and the banter light","attendees":9,"image":"images/event-p13-Im2.jpg","status":"past","cancelled":false},{"id":51,"title":"Supper Club & Movie | Nosferatu w/ Radiohead Soundtrack @ Frida Cinema","date":"2024-10-05","time":"9:00 PM","venue":"Hammer Burger","address":"313 N Bush St, Santa Ana CA","description":"Supper Club - Hammer Burger @ 9:00PM - Amazing smash burgers","attendees":7,"image":"images/event-p13-Im4.jpg","status":"past","cancelled":false},{"id":52,"title":"Goth Night @ Das Bunker Anniversary [come rage with us]","date":"2024-10-04","time":"9:30 PM","venue":"Catch One","address":"4067 W Pico Blvd, Los Angeles CA","description":"COME RAGE WITH US. DONT BE CREEPY WEIRD","attendees":12,"image":"images/event-p13-Im6.jpg","status":"past","cancelled":false},{"id":53,"title":"Witches Brew Night Market (Libations Beforehand)","date":"2024-09-21","time":"6:00 PM","venue":"Lola Gaspar","address":"211 W 2nd St, Santa Ana CA","description":"We'll meet at Lola Gaspar for libations and then head out to shop the spooky vendors","attendees":16,"image":"images/event-p14-Im0.jpg","status":"past","cancelled":false},{"id":54,"title":"The Rocky Horror Picture Show with shadow cast by K.A.O.S. @ Frida Cinema","date":"2024-09-13","time":"10:30 PM","venue":"Native Son Alehouse","address":"305 E 4th St Ste 200, Santa Ana CA","description":"Pre-party at Native Son @ 10:30PM","attendees":3,"image":"images/event-p14-Im2.jpg","status":"past","cancelled":false},{"id":55,"title":"Beetlejuice Beetlejuice","date":"2024-09-05","time":"9:10 PM","venue":"AMC Orange 30","address":"20 City Blvd West, Orange CA","description":"Beetlejuice was my first favourite movie as a kid, so I wanna watch it opening day!","attendees":2,"image":"images/event-p14-Im4.jpg","status":"past","cancelled":false},{"id":56,"title":"Repo! The Genetic Opera: Live Shadowcast Performance by ATTK @ Frida Cinema","date":"2024-08-31","time":"9:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Come join in for a weird, fun time! Meet beforehand at 4th Street Market @ 9:00PM","attendees":11,"image":"images/event-p14-Im6.jpg","status":"past","cancelled":false},{"id":57,"title":"Golden Road Brewery - Hangout during Night Market event","date":"2024-08-24","time":"6:00 PM","venue":"Golden Road Brewing Anaheim","address":"2210 E. Orangewood Ave, Anaheim CA","description":"Golden Road Brewery in Anaheim is hosting a night market. Come and hang out.","attendees":5,"image":"images/event-p15-Im0.jpg","status":"past","cancelled":false},{"id":58,"title":"Supper Club & Movie | feat. Cuckoo (horror-thriller) @ Frida Cinema","date":"2024-08-09","time":"6:30 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Supper Club - 4th Street Market @ 6:30PM","attendees":3,"image":"images/event-p15-Im2.jpg","status":"past","cancelled":false},{"id":59,"title":"Supper Club & Movie | feat. Bram Stoker's Dracula @ Frida Cinema","date":"2024-08-02","time":"6:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Supper Club - 4th Street Market @ 6:00PM","attendees":3,"image":"images/event-p15-Im4.jpg","status":"past","cancelled":false},{"id":60,"title":"Ladies Night Art Show + Live Music, Art Battle + Small Business Vendors + more","date":"2024-07-19","time":"8:00 PM","venue":"Soho Warehouse","address":"2130 Violet St, Los Angeles CA","description":"A fellow vamp is setting up an art display at this neat event","attendees":3,"image":"images/event-p15-Im6.jpg","status":"past","cancelled":false},{"id":61,"title":"Meet & Greet @ Radiant Beer Co. | First Friday Event, with food and vendors","date":"2024-07-05","time":"6:30 PM","venue":"Radiant Beer Co.","address":"1566 W Lincoln Ave, Anaheim CA","description":"Hang out and we'll chat about spooky movies, cool music","attendees":8,"image":"images/event-p16-Im0.jpg","status":"past","cancelled":false},{"id":62,"title":"Sunday Matinee | Humanist Vampire Seeking Consenting Suicidal Person","date":"2024-06-30","time":"11:45 AM","venue":"The Frida Cinema","address":"305 E 4th St #100, Santa Ana CA","description":"HUMANIST VAMPIRE SEEKING CONSENTING SUICIDAL PERSON @ Sun, June 30th, Noon, Frida Cinema","attendees":8,"image":"images/event-p16-Im2.jpg","status":"past","cancelled":false},{"id":63,"title":"Ghost: Rite Here Rite Now @ Frida Cinema","date":"2024-06-22","time":"6:45 PM","venue":"The Frida Cinema","address":"305 E 4th St #100, Santa Ana CA","description":"Ghost has a concert movie and its playing at The Frida Cinema! We'll meet in line at 6:45 PM.","attendees":4,"image":"images/event-p16-Im4.jpg","status":"past","cancelled":false},{"id":64,"title":"Stop Making Sense Dance Party @ The Frida Cinema","date":"2024-06-21","time":"6:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Dance Party at The Frida for Stop Making Sense","attendees":3,"image":"images/event-p16-Im6.jpg","status":"past","cancelled":false},{"id":65,"title":"Supper Club & Movie | feat. The Never Ending Story @ Frida Cinema","date":"2024-06-20","time":"6:00 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Supper Club - 4th Street Market @ 6:00PM","attendees":3,"image":"images/event-p17-Im0.jpg","status":"past","cancelled":false},{"id":66,"title":"Metal Night @ Radiant Brewing Co. | 3 Local bands and yummy brews","date":"2024-06-08","time":"7:00 PM","venue":"Radiant Beer Co.","address":"1566 W Lincoln Ave, Anaheim CA","description":"Hang out and chill at Radiant Brewery. There's gonna be some live music!","attendees":7,"image":"images/event-p17-Im2.jpg","status":"past","cancelled":false},{"id":67,"title":"BATTLE BEAST @ Observatory OC - Finnish heavy/power metal band","date":"2024-05-25","time":"7:00 PM","venue":"Location not specified yet","address":"Location not specified yet","description":"Battle Beast is a Finnish heavy/power metal band","attendees":1,"image":"images/event-p17-Im4.jpg","status":"past","cancelled":false},{"id":68,"title":"Supper Club & Movie | feat. I Saw the TV Glow (A24) @ Frida Cinema","date":"2024-05-17","time":"6:30 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Supper Club - 4th Street Market @ 6:30PM","attendees":7,"image":"images/event-p17-Im6.jpg","status":"past","cancelled":false},{"id":69,"title":"Witches Brew Night Market and then Smash Burgers at Hammer Burger","date":"2024-05-11","time":"4:45 PM","venue":"Congregation Ale House Santa Ana Chapter","address":"201 N Broadway, Santa Ana CA","description":"We'll meet at Congregation Alehouse and then head out to shop the spooky vendors","attendees":5,"image":"images/event-p18-Im0.jpg","status":"past","cancelled":false},{"id":70,"title":"May the 4th @ Asylum Brewing hosted by Witches Brew | Shop, Drink, Eat, Chat","date":"2024-05-04","time":"6:00 PM","venue":"Asylum Brewing","address":"2970 E La Palma Ave ste d, Anaheim CA","description":"Witches Brew is hosting a Star Wars themed vendor crafty pop ups at Asylum Brewing","attendees":11,"image":"images/event-p18-Im2.jpg","status":"past","cancelled":false},{"id":71,"title":"Supper Club & Movie | feat. The Lost Boys @ Frida Cinema","date":"2024-05-02","time":"6:30 PM","venue":"4th Street Market","address":"201 E 4th St, Santa Ana CA","description":"Supper Club - 4th Street Market @ 6:30PM","attendees":5,"image":"images/event-p18-Im4.jpg","status":"past","cancelled":false},{"id":72,"title":"Emo Nite @ Time Nightclub in Costa Mesa","date":"2024-04-26","time":"9:30 PM","venue":"Time Nightclub","address":"Costa Mesa CA","description":"Hey sad girls and sad boys, the OG Emo Nite is coming to Costa Mesa!","attendees":7,"image":"images/event-p18-Im6.jpg","status":"past","cancelled":false}],"_template":{"comment":"To add a new event, copy the template below and add it to the events array above","template":{"id":"increment_the_last_id_in_list","title":"Event Title","date":"YYYY-MM-DD format","time":"HH:MM AM/PM","venue":"Venue Name","address":"Full Address","description":"Short description or tagline","attendees":"number","image":"images/filename.jpg","status":"past or upcoming","cancelled":"true or false"}}};
+
+async function loadEvents() {
+    let events = null;
+    try {
+        const r = await fetch('events.json');
+        if (r.ok) { const d = await r.json(); events = d.events || []; }
+    } catch(e) {}
+    if (!events && typeof INLINE_EVENTS !== 'undefined') events = INLINE_EVENTS.events || [];
+    if (events) render(events);
+}
+
+function render(events) {
+    events.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const today = new Date(); today.setHours(0,0,0,0);
+    const upcoming = [], past = [];
+
+    events.forEach(ev => {
+        const d = new Date(ev.date + 'T23:59:59');
+        if (d >= today && ev.status === 'upcoming' && !ev.cancelled) {
+            upcoming.push(ev);
+        } else {
+            past.push(ev);
+        }
+    });
+
+    const uSec = document.getElementById('upcomingSection');
+    const uCon = document.getElementById('upcomingContainer');
+    if (upcoming.length > 0) {
+        uSec.style.display = 'block';
+        uCon.innerHTML = upcoming.map(ev => `
+            <div class="featured-event">
+                <img src="${esc(ev.image)}" alt="${esc(ev.title)}" loading="lazy" onerror="this.style.display='none'">
+                <div class="featured-info">
+                    <div class="featured-title">${esc(ev.title)}</div>
+                    <div class="featured-date">${fmtDate(ev.date)}${ev.time ? ' &middot; ' + esc(ev.time) : ''}</div>
+                    <div class="featured-venue">${esc(ev.venue || '')}${ev.address ? ', ' + esc(ev.address) : ''}</div>
+                    ${ev.description ? `<div class="featured-desc">${esc(ev.description)}</div>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    const aSec = document.getElementById('archiveSection');
+    const grid = document.getElementById('masonryGrid');
+    if (past.length > 0) {
+        aSec.style.display = 'block';
+        grid.innerHTML = past.map(ev => `
+            <div class="masonry-item">
+                <img src="${esc(ev.image)}" alt="${esc(ev.title)}" loading="lazy" onerror="this.style.display='none'">
+                <div class="masonry-meta">
+                    ${ev.cancelled ? '<div class="cancelled-tag">Cancelled</div>' : ''}
+                    <div class="masonry-title">${esc(ev.title)}</div>
+                    <div class="masonry-date">${fmtDate(ev.date)}</div>
+                    ${ev.attendees ? `<div class="masonry-attendees">${ev.attendees} attended</div>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+function fmtDate(s) {
+    const d = new Date(s + 'T12:00:00');
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function esc(t) {
+    if (!t) return '';
+    const m = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
+    return String(t).replace(/[&<>"']/g, c => m[c]);
+}
+
+document.addEventListener('DOMContentLoaded', loadEvents);
+</script>
+
+</body>
+</html>

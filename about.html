@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — The Vampire Social Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --void: #080808;
+            --surface: #111111;
+            --border: #1e1e1e;
+            --blood: #8B0000;
+            --crimson: #a01020;
+            --bone: #c8c0b8;
+            --ash: #888078;
+            --ghost: #e8e0d8;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: var(--void);
+            color: var(--bone);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 28px;
+            background: linear-gradient(180deg, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0) 100%);
+            pointer-events: none;
+        }
+
+        nav a {
+            pointer-events: all;
+            color: var(--ash);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover { color: var(--ghost); }
+
+        .content {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 80px 30px 100px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--ghost);
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--crimson);
+            margin-top: 45px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: var(--bone);
+            margin-bottom: 18px;
+        }
+
+        .stat {
+            display: inline-block;
+            color: var(--ghost);
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+        }
+
+        .divider {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--blood);
+            font-size: 0.7rem;
+            letter-spacing: 12px;
+            opacity: 0.4;
+        }
+
+        a.subtle {
+            color: var(--crimson);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        a.subtle:hover {
+            color: var(--ghost);
+            border-color: var(--blood);
+        }
+
+        @media (max-width: 550px) {
+            .content { padding: 60px 24px 80px; }
+            h1 { font-size: 1.3rem; }
+            nav { padding: 12px 20px; gap: 20px; }
+            nav a { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Events</a>
+        <a href="https://discord.gg/qnRwsnSaey" target="_blank" rel="noopener noreferrer">Discord</a>
+    </nav>
+
+    <div class="content">
+
+        <h1>About the Coven</h1>
+
+        <h2>How it started</h2>
+        <p>The Vampire Social Club began as a Meetup group in the Santa Ana, California area. A place for goths, punks, horror lovers, metalheads, and anyone who felt more at home in the dark than in the light. We organized movie nights, goth club outings, craft meetups, art walks, concerts, potlucks, and all manner of dark gatherings.</p>
+
+        <p>Over time the group grew to <span class="stat">385+ members</span> and earned a <span class="stat">4.9 star rating</span> across 97 reviews on Meetup. We've hosted <span class="stat">120+ events</span> since 2024.</p>
+
+        <h2>Where we are now</h2>
+        <p>We moved off Meetup because it got too expensive for what is, at the end of the day, a group of friends who like to hang out. We now organize everything through <a href="https://discord.gg/qnRwsnSaey" target="_blank" rel="noopener noreferrer" class="subtle">our Discord server</a>. That's where new events get announced, where people meet each other, and where the coven actually lives.</p>
+
+        <p>This website is our archive and our front door. If you're seeing this, someone wanted to show you what we're about. Scroll through the events, see the flyers, and if it looks like your kind of thing, join us on Discord.</p>
+
+        <h2>What we do</h2>
+        <p>We go to goth nights and dance. We watch horror movies at the Frida Cinema and eat at the food hall beforehand. We go to haunted mazes, emo nights, burlesque shows, metal concerts, night markets, and art walks. We do crafts. We have picnics. Sometimes we just meet at a brewery and talk about spooky things. There's no membership fee, no dress code, no prerequisites. Just show up and be decent to each other.</p>
+
+        <div class="divider">&#x2020; &#x2020; &#x2020;</div>
+
+        <p style="text-align:center; font-style:italic; color:var(--ash); font-size:0.95rem;"><a href="index.html" class="subtle">Back to events</a></p>
+
+    </div>
+
+</body>
+</html>
