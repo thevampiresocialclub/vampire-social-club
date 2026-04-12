@@ -30,8 +30,11 @@
             font-family: 'Crimson Text', Georgia, serif;
             background-color: var(--void);
             color: var(--bone);
-            line-height: 1.8;
+            line-height: 1.85;
+            font-size: 18px;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* === GRAIN OVERLAY === */
@@ -66,7 +69,7 @@
             color: var(--ash);
             text-decoration: none;
             font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             letter-spacing: 2.5px;
             text-transform: uppercase;
             transition: color 0.4s ease;
@@ -75,7 +78,7 @@
         nav a:hover { color: var(--gold); }
 
         .content {
-            max-width: 640px;
+            max-width: 680px;
             margin: 0 auto;
             padding: 90px 30px 100px;
         }
@@ -93,29 +96,30 @@
 
         h1 {
             font-family: 'Grenze Gotisch', serif;
-            font-size: 2.4rem;
+            font-size: clamp(2.2rem, 5vw, 3rem);
             font-weight: 600;
             color: var(--ghost);
             letter-spacing: 2px;
             margin-bottom: 50px;
             text-align: center;
+            line-height: 1.25;
             text-shadow: 0 0 60px rgba(139, 0, 0, 0.15);
         }
 
         h2 {
             font-family: 'Grenze Gotisch', serif;
-            font-size: 1.3rem;
+            font-size: clamp(1.3rem, 3vw, 1.6rem);
             font-weight: 500;
             letter-spacing: 2px;
             color: var(--gold);
             margin-top: 45px;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         p {
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             color: var(--bone);
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .stat {
@@ -123,7 +127,7 @@
             color: var(--ghost);
             font-family: 'Grenze Gotisch', serif;
             font-weight: 600;
-            font-size: 1.15em;
+            font-size: 1.2em;
         }
 
         .divider-ornate {
@@ -154,14 +158,14 @@
 
         .back-link {
             display: inline-block;
-            color: var(--ash);
+            color: var(--bone);
             text-decoration: none;
             font-family: 'Cinzel', serif;
-            font-size: 0.72rem;
+            font-size: 0.82rem;
             letter-spacing: 3px;
             text-transform: uppercase;
             border: 1px solid var(--border);
-            padding: 10px 28px;
+            padding: 14px 32px;
             transition: all 0.4s ease;
         }
 
@@ -171,11 +175,22 @@
             box-shadow: 0 0 30px var(--gold-glow);
         }
 
-        @media (max-width: 550px) {
-            .content { padding: 60px 24px 80px; }
-            h1 { font-size: 1.8rem; }
-            nav { padding: 12px 20px; gap: 20px; }
-            nav a { font-size: 0.7rem; }
+        @media (max-width: 600px) {
+            body { font-size: 17px; }
+            .content { padding: 70px 22px 80px; }
+            h1 { letter-spacing: 1px; }
+            h2 { margin-top: 38px; }
+            p { font-size: 1.1rem; margin-bottom: 18px; }
+            nav { padding: 14px 18px; gap: 22px; }
+            nav a { font-size: 0.78rem; letter-spacing: 2px; }
+            .back-link { font-size: 0.8rem; padding: 14px 28px; }
+        }
+
+        @media (max-width: 380px) {
+            body { font-size: 16px; }
+            .content { padding: 60px 18px 70px; }
+            p { font-size: 1.05rem; }
+            nav a { font-size: 0.72rem; }
         }
     </style>
 </head>
