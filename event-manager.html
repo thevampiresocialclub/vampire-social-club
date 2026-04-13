@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vampire Social Club — Event Manager</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0e0e12;
+            color: #ccc;
+            min-height: 100vh;
+        }
+
+        .app {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 24px;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            color: #e8e0d8;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+        }
+
+        /* === TABS === */
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #222;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: #777;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover { color: #aaa; }
+        .tab.active { color: #C9A84C; border-bottom-color: #C9A84C; }
+
+        /* === LOAD SECTION === */
+        .load-section {
+            background: #141418;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .load-section label {
+            display: block;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .load-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .load-row input[type="file"] { display: none; }
+
+        .btn {
+            padding: 8px 18px;
+            border: 1px solid #333;
+            background: #1a1a22;
+            color: #ccc;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn:hover { background: #222; border-color: #444; }
+        .btn-gold { border-color: #8a7434; color: #C9A84C; }
+        .btn-gold:hover { background: #1a1822; border-color: #C9A84C; }
+        .btn-red { border-color: #5a2020; color: #c0252e; }
+        .btn-red:hover { background: #1a1215; border-color: #8B0000; }
+        .btn-green { border-color: #2a5a2a; color: #4a9; }
+        .btn-green:hover { background: #121a15; border-color: #4a9; }
+
+        .status-text {
+            font-size: 0.82rem;
+            color: #555;
+            margin-left: 10px;
+        }
+
+        .status-text.loaded { color: #4a9; }
+        .status-text.error { color: #c0252e; }
+
+        /* === FORM === */
+        .form-panel {
+            background: #141418;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-panel h2 {
+            font-size: 1rem;
+            color: #C9A84C;
+            margin-bottom: 18px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group.full { grid-column: 1 / -1; }
+
+        .form-group label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            background: #0e0e12;
+            border: 1px solid #2a2a32;
+            border-radius: 5px;
+            padding: 10px 12px;
+            color: #ddd;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C9A84C;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .form-actions .msg {
+            font-size: 0.82rem;
+            margin-left: auto;
+        }
+
+        .msg.success { color: #4a9; }
+        .msg.error { color: #c0252e; }
+
+        /* === EVENT LIST === */
+        .event-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .event-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #141418;
+            border: 1px solid #222;
+            border-radius: 6px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .event-row:hover { background: #1a1a22; border-color: #333; }
+        .event-row.upcoming-row { border-left: 3px solid #C9A84C; }
+        .event-row.cancelled-row { opacity: 0.5; }
+
+        .event-row .date {
+            font-size: 0.78rem;
+            color: #666;
+            min-width: 100px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .event-row .title {
+            flex: 1;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        .event-row .badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge-upcoming { background: #1a1822; color: #C9A84C; border: 1px solid #8a7434; }
+        .badge-past { background: #161616; color: #666; border: 1px solid #333; }
+        .badge-cancelled { background: #1a1215; color: #c0252e; border: 1px solid #5a2020; }
+
+        .event-row .edit-btn {
+            font-size: 0.78rem;
+            color: #666;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .event-row .edit-btn:hover { color: #C9A84C; }
+
+        /* === SAVE OUTPUT === */
+        .output-section {
+            background: #141418;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .output-section h3 {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 12px;
+        }
+
+        .output-section textarea {
+            width: 100%;
+            height: 150px;
+            background: #0a0a0e;
+            border: 1px solid #222;
+            border-radius: 5px;
+            color: #888;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            padding: 12px;
+            resize: vertical;
+        }
+
+        .output-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            align-items: center;
+        }
+
+        .copy-msg {
+            font-size: 0.82rem;
+            color: #4a9;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .copy-msg.show { opacity: 1; }
+
+        /* === UPCOMING PANEL === */
+        .upcoming-panel {
+            background: #141418;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+
+        .upcoming-panel h2 {
+            font-size: 1rem;
+            color: #C9A84C;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upcoming-panel h2 .count {
+            font-size: 0.75rem;
+            background: #1a1822;
+            color: #C9A84C;
+            border: 1px solid #8a7434;
+            padding: 1px 8px;
+            border-radius: 10px;
+        }
+
+        .upcoming-panel .empty-msg {
+            font-size: 0.85rem;
+            color: #555;
+            font-style: italic;
+        }
+
+        .upcoming-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #0e0e12;
+            border: 1px solid #2a2a32;
+            border-left: 3px solid #C9A84C;
+            border-radius: 6px;
+            padding: 14px 16px;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .upcoming-card:hover {
+            background: #141420;
+            border-color: #333;
+            border-left-color: #C9A84C;
+        }
+
+        .upcoming-card .uc-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .upcoming-card .uc-title {
+            font-size: 0.95rem;
+            color: #ddd;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .upcoming-card .uc-detail {
+            font-size: 0.78rem;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        .upcoming-card .uc-detail span {
+            margin-right: 12px;
+        }
+
+        .upcoming-card .uc-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 0.78rem;
+            border-radius: 4px;
+        }
+
+        .btn-archive {
+            border-color: #444;
+            color: #999;
+        }
+
+        .btn-archive:hover {
+            background: #1a1a22;
+            border-color: #666;
+            color: #ccc;
+        }
+
+        /* === SEARCH === */
+        .search-bar {
+            margin-bottom: 16px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            background: #0e0e12;
+            border: 1px solid #2a2a32;
+            border-radius: 5px;
+            padding: 10px 14px;
+            color: #ddd;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #C9A84C;
+        }
+
+        .search-bar input::placeholder { color: #444; }
+
+        .count-text {
+            font-size: 0.8rem;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .event-row { flex-wrap: wrap; }
+            .event-row .date { min-width: auto; }
+        }
+
+        /* Hidden */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <h1>Event Manager</h1>
+        <p class="subtitle">The Vampire Social Club — add, edit, and manage events</p>
+
+        <!-- LOAD JSON -->
+        <div class="load-section">
+            <div class="load-row">
+                <span class="status-text" id="loadStatus">Loading events.json...</span>
+                <button class="btn" onclick="autoLoad()" style="margin-left:auto;">Reload</button>
+                <button class="btn" onclick="document.getElementById('fileInput').click()">Load from file...</button>
+                <input type="file" id="fileInput" accept=".json" onchange="handleFileLoad(event)">
+            </div>
+        </div>
+
+        <!-- UPCOMING EVENTS PANEL -->
+        <div class="upcoming-panel" id="upcomingPanel" style="display:none;">
+            <h2>Upcoming Events <span class="count" id="upcomingCount">0</span></h2>
+            <div id="upcomingList"></div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" data-tab="add" onclick="switchTab('add')">Add New Event</button>
+            <button class="tab" data-tab="list" onclick="switchTab('list')">All Events</button>
+        </div>
+
+        <!-- ADD / EDIT FORM -->
+        <div id="addPanel" class="form-panel">
+            <h2 id="formTitle">Add New Event</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Event Title</label>
+                    <input type="text" id="fTitle" placeholder="Goth Night @ Bar Sinister">
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="fDate">
+                </div>
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="text" id="fTime" placeholder="7:00 PM">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="fStatus">
+                        <option value="upcoming">Upcoming</option>
+                        <option value="past">Past</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Venue</label>
+                    <input type="text" id="fVenue" placeholder="The Frida Cinema">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="fAddress" placeholder="305 E 4th St, Santa Ana CA">
+                </div>
+                <div class="form-group">
+                    <label>Image Filename</label>
+                    <input type="text" id="fImage" placeholder="images/e119.jpg">
+                </div>
+                <div class="form-group">
+                    <label>Attendees</label>
+                    <input type="number" id="fAttendees" placeholder="0" min="0">
+                </div>
+                <div class="form-group full">
+                    <label>Description</label>
+                    <textarea id="fDesc" placeholder="Write whatever you want here — line breaks are handled automatically"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Cancelled?</label>
+                    <select id="fCancelled">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-gold" id="submitBtn" onclick="submitEvent()">Add Event</button>
+                <button class="btn hidden" id="cancelEditBtn" onclick="cancelEdit()">Cancel Edit</button>
+                <span class="msg" id="formMsg"></span>
+            </div>
+        </div>
+
+        <!-- EVENT LIST -->
+        <div id="listPanel" class="hidden">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search events..." oninput="renderList()">
+            </div>
+            <div class="count-text" id="countText"></div>
+            <div class="event-list" id="eventList"></div>
+        </div>
+
+        <!-- SAVE / EXPORT -->
+        <div class="output-section" id="outputSection" style="display:none;">
+            <h3>Updated events.json</h3>
+            <div class="output-actions" style="margin-bottom: 12px;">
+                <button class="btn btn-gold" onclick="copyJSON()">Copy to Clipboard</button>
+                <button class="btn btn-green" onclick="downloadJSON()">Download File</button>
+                <span class="copy-msg" id="copyMsg">Copied!</span>
+            </div>
+            <textarea id="jsonOutput" readonly></textarea>
+            <p style="font-size: 0.78rem; color: #555; margin-top: 10px;">
+                Paste this into your events.json on GitHub, or use the downloaded file to replace it.
+            </p>
+        </div>
+    </div>
+
+<script>
+let events = [];
+let editingId = null;
+let templateData = null;
+
+async function autoLoad() {
+    const status = document.getElementById('loadStatus');
+    status.textContent = 'Loading events.json...';
+    status.className = 'status-text';
+    try {
+        const r = await fetch('events.json?v=' + Date.now());
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const data = await r.json();
+        events = data.events || [];
+        templateData = data._template || null;
+        status.textContent = events.length + ' events loaded';
+        status.className = 'status-text loaded';
+        document.getElementById('outputSection').style.display = 'block';
+        renderUpcoming();
+        renderList();
+        updateOutput();
+        const maxId = Math.max(...events.map(e => e.id), 0);
+        document.getElementById('fImage').placeholder = 'images/e' + (maxId + 1) + '.jpg';
+    } catch(err) {
+        status.textContent = 'Could not auto-load events.json — use "Load from file" button';
+        status.className = 'status-text error';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', autoLoad);
+
+function handleFileLoad(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        try {
+            const data = JSON.parse(ev.target.result);
+            events = data.events || [];
+            templateData = data._template || null;
+            document.getElementById('loadStatus').textContent = events.length + ' events loaded';
+            document.getElementById('loadStatus').className = 'status-text loaded';
+            document.getElementById('outputSection').style.display = 'block';
+            renderUpcoming();
+            renderList();
+            updateOutput();
+            // Auto-fill next ID in image field
+            const maxId = Math.max(...events.map(e => e.id), 0);
+            document.getElementById('fImage').placeholder = 'images/e' + (maxId + 1) + '.jpg';
+        } catch(err) {
+            document.getElementById('loadStatus').textContent = 'Error: Invalid JSON — ' + err.message;
+            document.getElementById('loadStatus').className = 'status-text error';
+        }
+    };
+    reader.readAsText(file);
+}
+
+function renderUpcoming() {
+    const upcoming = events
+        .filter(ev => ev.status === 'upcoming' && !ev.cancelled)
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const panel = document.getElementById('upcomingPanel');
+    const list = document.getElementById('upcomingList');
+    const countEl = document.getElementById('upcomingCount');
+
+    if (events.length === 0) {
+        panel.style.display = 'none';
+        return;
+    }
+
+    panel.style.display = 'block';
+    countEl.textContent = upcoming.length;
+
+    if (upcoming.length === 0) {
+        list.innerHTML = '<p class="empty-msg">No upcoming events — add one above or switch a past event back to upcoming.</p>';
+        return;
+    }
+
+    list.innerHTML = upcoming.map(ev => {
+        const dateStr = ev.date ? fmtDateShort(ev.date) : 'No date';
+        return `<div class="upcoming-card">
+            <div class="uc-info">
+                <div class="uc-title">${esc(ev.title)}</div>
+                <div class="uc-detail">
+                    <span>${dateStr}</span>
+                    ${ev.time ? '<span>' + esc(ev.time) + '</span>' : ''}
+                    ${ev.venue ? '<span>' + esc(ev.venue) + '</span>' : ''}
+                </div>
+            </div>
+            <div class="uc-actions">
+                <button class="btn btn-sm btn-gold" onclick="editEvent(${ev.id})">Edit</button>
+                <button class="btn btn-sm btn-archive" onclick="archiveEvent(${ev.id})">Archive</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function archiveEvent(id) {
+    const idx = events.findIndex(e => e.id === id);
+    if (idx === -1) return;
+    events[idx].status = 'past';
+    renderUpcoming();
+    renderList();
+    updateOutput();
+    showMsg('Event #' + id + ' archived to past');
+}
+
+function fmtDateShort(s) {
+    const d = new Date(s + 'T12:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+    document.getElementById('addPanel').classList.toggle('hidden', tab !== 'add');
+    document.getElementById('listPanel').classList.toggle('hidden', tab !== 'list');
+}
+
+function submitEvent() {
+    const title = document.getElementById('fTitle').value.trim();
+    const date = document.getElementById('fDate').value;
+    const time = document.getElementById('fTime').value.trim();
+    const venue = document.getElementById('fVenue').value.trim();
+    const address = document.getElementById('fAddress').value.trim();
+    const image = document.getElementById('fImage').value.trim();
+    const attendees = parseInt(document.getElementById('fAttendees').value) || 0;
+    const description = document.getElementById('fDesc').value.trim();
+    const status = document.getElementById('fStatus').value;
+    const cancelled = document.getElementById('fCancelled').value === 'true';
+
+    if (!title) return showMsg('Title is required', true);
+    if (!date) return showMsg('Date is required', true);
+
+    if (editingId !== null) {
+        // Update existing event
+        const idx = events.findIndex(e => e.id === editingId);
+        if (idx === -1) return showMsg('Event not found', true);
+        events[idx] = {
+            ...events[idx],
+            title, date, time, venue, address, image, attendees, description, status, cancelled
+        };
+        showMsg('Event updated!');
+        editingId = null;
+        document.getElementById('formTitle').textContent = 'Add New Event';
+        document.getElementById('submitBtn').textContent = 'Add Event';
+        document.getElementById('cancelEditBtn').classList.add('hidden');
+    } else {
+        // Add new event
+        const maxId = Math.max(...events.map(e => e.id), 0);
+        const newEvent = {
+            id: maxId + 1,
+            title, date, time, venue, address, description, attendees,
+            image: image || 'images/e' + (maxId + 1) + '.jpg',
+            status, cancelled
+        };
+        // Add to beginning of array
+        events.unshift(newEvent);
+        showMsg('Event #' + newEvent.id + ' added!');
+    }
+
+    clearForm();
+    renderUpcoming();
+    renderList();
+    updateOutput();
+}
+
+function editEvent(id) {
+    const ev = events.find(e => e.id === id);
+    if (!ev) return;
+
+    editingId = id;
+    document.getElementById('fTitle').value = ev.title || '';
+    document.getElementById('fDate').value = ev.date || '';
+    document.getElementById('fTime').value = ev.time || '';
+    document.getElementById('fVenue').value = ev.venue || '';
+    document.getElementById('fAddress').value = ev.address || '';
+    document.getElementById('fImage').value = ev.image || '';
+    document.getElementById('fAttendees').value = ev.attendees || 0;
+    document.getElementById('fDesc').value = ev.description || '';
+    document.getElementById('fStatus').value = ev.status || 'past';
+    document.getElementById('fCancelled').value = ev.cancelled ? 'true' : 'false';
+
+    document.getElementById('formTitle').textContent = 'Edit Event #' + id;
+    document.getElementById('submitBtn').textContent = 'Save Changes';
+    document.getElementById('cancelEditBtn').classList.remove('hidden');
+
+    switchTab('add');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deleteEvent(id) {
+    if (!confirm('Delete event #' + id + '? This cannot be undone.')) return;
+    events = events.filter(e => e.id !== id);
+    renderUpcoming();
+    renderList();
+    updateOutput();
+    showMsg('Event #' + id + ' deleted');
+}
+
+function cancelEdit() {
+    editingId = null;
+    clearForm();
+    document.getElementById('formTitle').textContent = 'Add New Event';
+    document.getElementById('submitBtn').textContent = 'Add Event';
+    document.getElementById('cancelEditBtn').classList.add('hidden');
+}
+
+function clearForm() {
+    ['fTitle','fDate','fTime','fVenue','fAddress','fImage','fAttendees','fDesc'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('fStatus').value = 'upcoming';
+    document.getElementById('fCancelled').value = 'false';
+    // Update placeholder with next ID
+    const maxId = Math.max(...events.map(e => e.id), 0);
+    document.getElementById('fImage').placeholder = 'images/e' + (maxId + 1) + '.jpg';
+}
+
+function renderList() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = events.filter(ev =>
+        ev.title.toLowerCase().includes(query) ||
+        (ev.venue || '').toLowerCase().includes(query) ||
+        (ev.date || '').includes(query)
+    );
+
+    // Sort: upcoming first (by date asc), then past (by date desc)
+    filtered.sort((a, b) => {
+        if (a.status === 'upcoming' && b.status !== 'upcoming') return -1;
+        if (a.status !== 'upcoming' && b.status === 'upcoming') return 1;
+        if (a.status === 'upcoming') return new Date(a.date) - new Date(b.date);
+        return new Date(b.date) - new Date(a.date);
+    });
+
+    const upcomingCount = events.filter(e => e.status === 'upcoming').length;
+    document.getElementById('countText').textContent =
+        filtered.length + ' events' +
+        (query ? ' matching "' + query + '"' : '') +
+        ' (' + upcomingCount + ' upcoming, ' + (events.length - upcomingCount) + ' past)';
+
+    const html = filtered.map(ev => {
+        let rowClass = 'event-row';
+        let badge = '';
+        if (ev.cancelled) {
+            rowClass += ' cancelled-row';
+            badge = '<span class="badge badge-cancelled">Cancelled</span>';
+        } else if (ev.status === 'upcoming') {
+            rowClass += ' upcoming-row';
+            badge = '<span class="badge badge-upcoming">Upcoming</span>';
+        } else {
+            badge = '<span class="badge badge-past">Past</span>';
+        }
+
+        return `<div class="${rowClass}">
+            <span class="date">${ev.date || 'No date'}</span>
+            <span class="title">${esc(ev.title)}</span>
+            ${badge}
+            <button class="edit-btn" onclick="editEvent(${ev.id})">Edit</button>
+            <button class="edit-btn btn-red" onclick="deleteEvent(${ev.id})" style="color:#c0252e;">Delete</button>
+        </div>`;
+    }).join('');
+
+    document.getElementById('eventList').innerHTML = html;
+}
+
+function updateOutput() {
+    const output = { events: events };
+    if (templateData) output._template = templateData;
+    const json = JSON.stringify(output, null, 2);
+    document.getElementById('jsonOutput').value = json;
+}
+
+function copyJSON() {
+    const text = document.getElementById('jsonOutput').value;
+    navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById('copyMsg');
+        msg.classList.add('show');
+        setTimeout(() => msg.classList.remove('show'), 2000);
+    });
+}
+
+function downloadJSON() {
+    const text = document.getElementById('jsonOutput').value;
+    const blob = new Blob([text], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'events.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function showMsg(text, isError) {
+    const el = document.getElementById('formMsg');
+    el.textContent = text;
+    el.className = 'msg ' + (isError ? 'error' : 'success');
+    setTimeout(() => { el.textContent = ''; el.className = 'msg'; }, 3000);
+}
+
+function esc(t) {
+    if (!t) return '';
+    const m = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
+    return String(t).replace(/[&<>"']/g, c => m[c]);
+}
+</script>
+
+</body>
+</html>
