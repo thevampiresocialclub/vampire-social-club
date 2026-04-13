@@ -544,7 +544,8 @@
 async function loadEvents() {
     let events = null;
     try {
-        const r = await fetch('events.json');
+        // Cache-bust to avoid GitHub Pages serving stale JSON
+        const r = await fetch('events.json?v=' + Date.now());
         if (r.ok) { const d = await r.json(); events = d.events || []; }
     } catch(e) {}
     if (events) render(events);
