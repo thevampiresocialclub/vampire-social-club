@@ -523,9 +523,11 @@
         <div class="output-section" id="outputSection" style="display:none;">
             <h3>Updated events.json</h3>
             <div class="output-actions" style="margin-bottom: 12px;">
+                <button class="btn btn-green" id="saveBtn" onclick="saveToFile()">Save to events.json</button>
                 <button class="btn btn-gold" onclick="copyJSON()">Copy to Clipboard</button>
-                <button class="btn btn-green" onclick="downloadJSON()">Download File</button>
+                <button class="btn" onclick="downloadJSON()">Download File</button>
                 <span class="copy-msg" id="copyMsg">Copied!</span>
+                <span class="copy-msg" id="saveMsg">Saved!</span>
             </div>
             <textarea id="jsonOutput" readonly></textarea>
             <p style="font-size: 0.78rem; color: #555; margin-top: 10px;">
@@ -538,6 +540,65 @@
 let events = [];
 let editingId = null;
 let templateData = null;
+let fileHandle = null;
+
+async function saveToFile() {
+    const saveBtn = document.getElementById('saveBtn');
+    const saveMsg = document.getElementById('saveMsg');
+
+    if (!('showOpenFilePicker' in window) && !('showSaveFilePicker' in window)) {
+        alert('Your browser does not support direct file saving. Try Chrome or Edge, or use the Download File button instead.');
+        return;
+    }
+
+    try {
+        if (!fileHandle) {
+            // First save: let user pick their events.json file
+            if ('showOpenFilePicker' in window) {
+                const [handle] = await window.showOpenFilePicker({
+                    types: [{
+                        description: 'JSON File',
+                        accept: {'application/json': ['.json']}
+                    }],
+                    multiple: false
+                });
+                fileHandle = handle;
+
+                // Request write permission
+                const perm = await fileHandle.requestPermission({ mode: 'readwrite' });
+                if (perm !== 'granted') {
+                    fileHandle = null;
+                    alert('Write permission was not granted. Try again and click "Allow".');
+                    return;
+                }
+            } else {
+                fileHandle = await window.showSaveFilePicker({
+                    suggestedName: 'events.json',
+                    types: [{
+                        description: 'JSON File',
+                        accept: {'application/json': ['.json']}
+                    }]
+                });
+            }
+        }
+
+        const content = document.getElementById('jsonOutput').value;
+        const writable = await fileHandle.createWritable();
+        await writable.write(content);
+        await writable.close();
+
+        saveBtn.textContent = 'Save to ' + fileHandle.name;
+        saveMsg.textContent = 'Saved at ' + new Date().toLocaleTimeString();
+        saveMsg.classList.add('show');
+        setTimeout(() => saveMsg.classList.remove('show'), 3000);
+    } catch(err) {
+        if (err.name === 'AbortError') return; // user cancelled
+        console.error(err);
+        alert('Save failed: ' + err.message + '\n\nThe file may have been moved, or permission was lost. Try clicking Save again to re-select the file.');
+        fileHandle = null;
+        saveBtn.textContent = 'Save to events.json';
+    }
+}
 
 async function autoLoad() {
     const status = document.getElementById('loadStatus');
