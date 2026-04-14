@@ -555,7 +555,6 @@ async function loadEvents() {
 }
 
 function render(events) {
-    events.sort((a, b) => new Date(b.date) - new Date(a.date));
     const today = new Date(); today.setHours(0,0,0,0);
     const upcoming = [], past = [];
 
@@ -567,6 +566,11 @@ function render(events) {
             past.push(ev);
         }
     });
+
+    // Upcoming: soonest first (ascending)
+    upcoming.sort((a, b) => new Date(a.date) - new Date(b.date));
+    // Past: most recent first (descending)
+    past.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const uSec = document.getElementById('upcomingSection');
     const uCon = document.getElementById('upcomingContainer');
