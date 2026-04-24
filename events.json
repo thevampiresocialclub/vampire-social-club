@@ -1,6 +1,19 @@
 {
   "events": [
     {
+      "id": 122,
+      "title": "World Goth Day @ MainPlace Mall, Santa Ana",
+      "date": "2026-05-22",
+      "time": "6:00 PM",
+      "venue": "MainPlace Mall",
+      "address": "2800 N Main St, Santa Ana, CA 92705",
+      "description": "🫵 COME TO MAINPLACE MALL IN SANTA ANA\nFRI, MAY 22 6PM\n\nGO TO HOT TOPIC, GET PIERCED, EAT AT FOOD COURT, PLAY ROUND1, WHATEVER HANG OUT\n\nMEET AT FOOD COURT 8PM FOR PHOTOS",
+      "attendees": 5,
+      "image": "images/WGD_banner.png",
+      "status": "upcoming",
+      "cancelled": false
+    },
+    {
       "id": 121,
       "title": "Ghoul's Day Out - MCR fan day event",
       "date": "2026-05-23",
