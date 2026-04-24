@@ -175,6 +175,24 @@
             filter: drop-shadow(0 0 30px rgba(139, 0, 0, 0.4)) drop-shadow(0 0 60px rgba(201, 168, 76, 0.15));
         }
 
+        .banner .tagline {
+            position: relative;
+            z-index: 2;
+            margin-top: 24px;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 18px rgba(201, 168, 76, 0.25), 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .banner {
+            flex-direction: column;
+        }
+
         /* === WELCOME === */
         .welcome {
             text-align: center;
@@ -639,6 +657,7 @@
 
     <div class="banner">
         <img src="images/2026 logo.png" alt="The Vampire Social Club" onerror="this.style.display='none'">
+        <div class="tagline">Orange County based goth/alt meetup group</div>
     </div>
 
     <nav>
