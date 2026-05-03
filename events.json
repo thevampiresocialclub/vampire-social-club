@@ -1,6 +1,19 @@
 {
   "events": [
     {
+      "id": 123,
+      "title": "Goth Clubbing @ Das Bunker - The History of Industrial pt2",
+      "date": "2026-05-08",
+      "time": "9:00 PM",
+      "venue": "Catch One",
+      "address": "4067 W Pico Blvd, Los Angeles, CA 90019",
+      "description": "DO YOU LOVE HISTORY??\n\nCome dance with us at Das Bunker. \n\n\"We are inviting back one of the bands we have been working with since our earliest days, Germany's theatrical darkwave pioneers DAS ICH! Filling out this exquisite lineup is the Texan Horror Body Music producer MVTANT and the Das Bunker resident DJs playing music for dancing across three rooms.\"\n\nBuy tickets before getting there here: https://dasbunker.org/",
+      "attendees": 0,
+      "image": "images/DasBunkerHistory2026.png",
+      "status": "upcoming",
+      "cancelled": false
+    },
+    {
       "id": 122,
       "title": "World Goth Day @ MainPlace Mall, Santa Ana",
       "date": "2026-05-22",
