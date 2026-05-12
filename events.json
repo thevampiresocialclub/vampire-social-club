@@ -1,6 +1,19 @@
 {
   "events": [
     {
+      "id": 124,
+      "title": "Goth Night - The Chamber @ Bravo Night Club Anaheim",
+      "date": "2026-05-24",
+      "time": "9:00 PM",
+      "venue": "The Chamber @ Bravo Night Club Anaheim",
+      "address": "1490 S Anaheim Blvd, Anaheim, CA 92805",
+      "description": "Monday the 26th is a Memorial Day holiday...\n\nThat means we RAGE on Sunday night!  Come rage and dance with us.  The Chamber brings darkwave and industrial.  The room next over has cumbia and upstairs is rock en espanol!  Uh..... yeah, were gonna dance in all the rooms duh!",
+      "attendees": 10,
+      "image": "images/thechamber20260524.png",
+      "status": "upcoming",
+      "cancelled": false
+    },
+    {
       "id": 123,
       "title": "Goth Clubbing @ Das Bunker - The History of Industrial pt2",
       "date": "2026-05-08",
@@ -8,9 +21,9 @@
       "venue": "Catch One",
       "address": "4067 W Pico Blvd, Los Angeles, CA 90019",
       "description": "DO YOU LOVE HISTORY??\n\nCome dance with us at Das Bunker. \n\n\"We are inviting back one of the bands we have been working with since our earliest days, Germany's theatrical darkwave pioneers DAS ICH! Filling out this exquisite lineup is the Texan Horror Body Music producer MVTANT and the Das Bunker resident DJs playing music for dancing across three rooms.\"\n\nBuy tickets before getting there here: https://dasbunker.org/",
-      "attendees": 0,
+      "attendees": 6,
       "image": "images/DasBunkerHistory2026.png",
-      "status": "upcoming",
+      "status": "past",
       "cancelled": false
     },
     {
@@ -1594,9 +1607,9 @@
       "venue": "Renaissance Faire Irwindale",
       "address": "427W+87, Irwindale, CA 91706",
       "description": "All Hallows Spring brings a spooky theme to Renaissance Pleasure Faire.  Shop, watch shows, eat, and watch the joust with us!  We're going as witches and wizards and we love casting spells!!!",
-      "attendees": 15,
+      "attendees": 10,
       "image": "images/witchWizardRenFaire.png",
-      "status": "upcoming",
+      "status": "past",
       "cancelled": false
     }
   ],
